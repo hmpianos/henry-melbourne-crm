@@ -65,7 +65,15 @@ Loading...
 
 google.script.run
   .withSuccessHandler(showJobs)
+  .withFailureHandler(showError)
   .getUnprocessedJobs();
+
+function showError(error) {
+
+  document.getElementById("jobs").innerHTML =
+    "<b>Error:</b><br><br>" + error.message;
+
+}
 
 function showJobs(jobs) {
 
