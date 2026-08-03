@@ -61,25 +61,3 @@ function getAccountNameByID(accountID) {
   return getAccountMap()[accountID] || accountID;
 
 }
-
-
-function getAccountNameByID(accountID) {
-
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Accounts");
-
-  const data = sheet.getDataRange().getValues();
-
-  for (let i = 1; i < data.length; i++) {
-
-    if (data[i][0] === accountID) {
-
-      return data[i][1];
-
-    }
-
-  }
-
-  throw new Error("Account not found: " + accountID);
-
-}
