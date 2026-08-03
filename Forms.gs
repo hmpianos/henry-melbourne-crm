@@ -25,7 +25,7 @@ function onFormSubmit(e) {
     room: r["Room"][0],
     piano: r["Piano"][0],
     service: serviceID,
-    rate: rate,
+    rate: Number(rate),
     paymentMethod: r["Payment Method"][0],
     notes: r["Job Notes"][0]
 
