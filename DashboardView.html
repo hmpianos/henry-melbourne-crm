@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 25px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .card {
+
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+
+    }
+
+    .jobid {
+
+      font-weight: bold;
+      font-size: 16px;
+
+    }
+
+    .row {
+
+      margin-top: 6px;
+
+    }
+
+    .rate {
+
+      float: right;
+      font-weight: bold;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<h1>HM CRM Dashboard</h1>
+
+<div id="jobs">
+
+Loading...
+
+</div>
+
+<script>
+
+google.script.run
+  .withSuccessHandler(showJobs)
+  .getUnprocessedJobs();
+
+function showJobs(jobs) {
+
+  const div = document.getElementById("jobs");
+
+  if (jobs.length === 0) {
+
+    div.innerHTML = "<p>No unprocessed jobs.</p>";
+
+    return;
+
+  }
+
+  div.innerHTML = "";
+
+  jobs.forEach(function(job) {
+
+    div.innerHTML += `
+
+      <div class="card">
+
+        <div class="jobid">
+
+          ${job.jobID}
+
+          <span class="rate">£${job.rate}</span>
+
+        </div>
+
+        <div class="row">${job.date}</div>
+
+        <div class="row">${job.account}</div>
+
+        <div class="row">${job.client}</div>
+
+        <div class="row">${job.service}</div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+</script>
+
+</body>
+
+</html>
