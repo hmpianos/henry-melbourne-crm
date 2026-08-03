@@ -31,6 +31,12 @@ function onOpen() {
 
     .addSubMenu(
       SpreadsheetApp.getUi()
+        .createMenu("Forms")
+        .addItem("Update Google Form", "updateJobForm")
+    )
+
+    .addSubMenu(
+      SpreadsheetApp.getUi()
         .createMenu("Billing")
         .addItem("Generate Billing Description", "generateBilling")
     )
