@@ -8,39 +8,46 @@ function updateJobForm() {
 
   const form = FormApp.openById(JOB_FORM_ID);
 
-  const items = form.getItems();
+  getFormListItem(form, "Account")
+    .setChoiceValues(getAccounts().map(a => a[1]));
 
-  const accountItem = items.find(i => i.getTitle() === "Account").asListItem();
-  const clientItem = items.find(i => i.getTitle() === "Client").asListItem();
-  const serviceItem = items.find(i => i.getTitle() === "Service").asListItem();
-  const paymentItem = items.find(i => i.getTitle() === "Payment Method").asListItem();
+  getFormListItem(form, "Client")
+    .setChoiceValues(
+      SpreadsheetApp.getActiveSpreadsheet()
+        .getSheetByName("Clients")
+        .getRange(2, 3,
+          SpreadsheetApp.getActiveSpreadsheet()
+            .getSheetByName("Clients")
+            .getLastRow() - 1, 1)
+        .getValues()
+        .flat()
+    );
 
-  // Accounts
+  getFormListItem(form, "Service")
+    .setChoiceValues(getServices().map(s => s[1]));
 
-  const accounts = getAccounts().map(a => a[1]);
-  accountItem.setChoiceValues(accounts);
-
-  // Clients
-
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const clientSheet = ss.getSheetByName("Clients");
-
-  const clientData = clientSheet
-    .getRange(2, 3, clientSheet.getLastRow() - 1, 1)
-    .getValues()
-    .flat();
-
-  clientItem.setChoiceValues(clientData);
-
-  // Services
-
-  const services = getServices().map(s => s[1]);
-  serviceItem.setChoiceValues(services);
-
-  // Payment Methods
-
-  paymentItem.setChoiceValues(getPaymentMethods());
+  getFormListItem(form, "Payment Method")
+    .setChoiceValues(getPaymentMethods());
 
   SpreadsheetApp.getUi().alert("Google Form updated successfully.");
+
+}
+
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+function getFormListItem(form, title) {
+
+  const item = form.getItems().find(i => i.getTitle() === title);
+
+  if (!item) {
+
+    throw new Error('Google Form question not found: "' + title + '"');
+
+  }
+
+  return item.asListItem();
 
 }
