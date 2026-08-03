@@ -9,8 +9,7 @@ function showDashboard() {
     .setWidth(1000)
     .setHeight(700);
 
-  SpreadsheetApp
-    .getUi()
+  SpreadsheetApp.getUi()
     .showModalDialog(html, "HM CRM Dashboard");
 
 }
@@ -34,9 +33,9 @@ function getUnprocessedJobs() {
 
         jobID: data[i][1],
         date: data[i][2],
-        accountID: data[i][3],
-        clientID: data[i][4],
-        service: data[i][8],
+        account: getAccountNameByID(data[i][3]),
+        client: getClientNameByID(data[i][4]),
+        service: getServiceNameByID(data[i][8]),
         rate: data[i][9]
 
       });
