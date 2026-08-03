@@ -1,11 +1,12 @@
 // ======================================================
-// LISTS
+// LOOKUP DATA
 // ======================================================
 
 function getPaymentMethods() {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Lists");
+  const sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getSheetByName("Lists");
 
   const lastRow = sheet.getLastRow();
 
@@ -19,15 +20,11 @@ function getPaymentMethods() {
 
 }
 
-
-// ======================================================
-// SERVICES
-// ======================================================
-
 function getServices() {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Services");
+  const sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getSheetByName("Services");
 
   const lastRow = sheet.getLastRow();
 
