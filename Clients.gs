@@ -33,10 +33,14 @@ function getNextClientID(accountID) {
 
 }
 
+
+// ======================================================
+// CREATE CLIENT
+// ======================================================
+
 function createClient(client) {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-
   const clients = ss.getSheetByName("Clients");
 
   clients.appendRow([
@@ -48,11 +52,17 @@ function createClient(client) {
     client.phone,
     ""
   ]);
+
 }
+
+
+// ======================================================
+// GET CLIENTS
+// ======================================================
+
 function getClients(accountID) {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-
   const sheet = ss.getSheetByName("Clients");
 
   const data = sheet.getDataRange().getValues();
@@ -73,5 +83,53 @@ function getClients(accountID) {
   }
 
   return clients;
+
+}
+
+
+// ======================================================
+// CLIENT LOOKUPS
+// ======================================================
+
+function getClientIDByName(clientName) {
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("Clients");
+
+  const data = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < data.length; i++) {
+
+    if (data[i][2] === clientName) {
+
+      return data[i][0];
+
+    }
+
+  }
+
+  throw new Error("Client not found: " + clientName);
+
+}
+
+
+function getClientNameByID(clientID) {
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("Clients");
+
+  const data = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < data.length; i++) {
+
+    if (data[i][0] === clientID) {
+
+      return data[i][2];
+
+    }
+
+  }
+
+  throw new Error("Client not found: " + clientID);
 
 }
