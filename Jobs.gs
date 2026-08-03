@@ -31,32 +31,50 @@ function getNextJobID() {
 
 }
 
+
+// ======================================================
+// CREATE JOB
+// ======================================================
+
 function createJob(job) {
 
+  const jobID = getNextJobID();
 
+  writeJob(jobID, job);
+
+}
+
+
+// ======================================================
+// WRITE JOB
+// ======================================================
+
+function writeJob(jobID, job) {
 
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const master = ss.getSheetByName("Master Log");
 
   master.appendRow([
 
-    new Date(),               // Created Timestamp
-    getNextJobID(),           // Job ID
-    job.date,                 // Job Date
-    job.accountID,            // Account ID
-    job.clientID,             // Client ID
-    job.contactVenue,         // Contact / Venue
-    job.room,                 // Room
-    job.piano,                // Piano
-    job.service,              // Service ID
-    job.rate,                 // Rate
-    job.paymentMethod,        // Payment Method
-    job.notes,                // Job Notes
-    "Unprocessed",            // Status
-    "",                       // Processed Date
-    "",                       // Billing Date
-    ""                        // Accounting Reference
+    new Date(),             // Created Timestamp
+    jobID,                  // Job ID
+    job.date,
+    job.accountID,
+    job.clientID,
+    job.contactVenue,
+    job.room,
+    job.piano,
+    job.service,
+    job.rate,
+    job.paymentMethod,
+    job.notes,
+    "Unprocessed",
+    "",
+    "",
+    ""
 
   ]);
+
+}
 
 }
