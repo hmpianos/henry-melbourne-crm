@@ -28,6 +28,7 @@ function getUnprocessedJobs() {
   const serviceMap = getServiceMap();
 
   const jobs = [];
+  let totalValue = 0;
 
   for (let i = 1; i < data.length; i++) {
 
@@ -50,13 +51,16 @@ function getUnprocessedJobs() {
 
     });
 
+    totalValue += Number(data[i][9]) || 0;
+
   }
 
   return {
 
-  count: jobs.length,
-  jobs: jobs
+    count: jobs.length,
+    totalValue: totalValue,
+    jobs: jobs
 
-};
+  };
 
 }
