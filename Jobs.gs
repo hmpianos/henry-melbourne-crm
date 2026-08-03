@@ -65,7 +65,7 @@ function writeJob(jobID, job) {
     job.room,
     job.piano,
     job.service,
-    job.rate,
+    Number(job.rate),
     job.paymentMethod,
     job.notes,
     "Unprocessed",
@@ -77,8 +77,14 @@ function writeJob(jobID, job) {
 
   const lastRow = master.getLastRow();
 
+  // Format Job Date
   master
-    .getRange(lastRow, 11)
+    .getRange(lastRow, 3)
+    .setNumberFormat("dd/MM/yy");
+
+  // Format Rate
+  master
+    .getRange(lastRow, 10)
     .setNumberFormat("£#,##0.00");
 
 }
