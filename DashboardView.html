@@ -75,19 +75,29 @@ function showError(error) {
 
 }
 
-function showJobs(jobs) {
+function showJobs(data) {
+
+  const jobs = data.jobs;
 
   const div = document.getElementById("jobs");
 
+  div.innerHTML = `
+
+    <div class="card">
+
+      <h2>Unprocessed Jobs: ${data.count}</h2>
+
+    </div>
+
+  `;
+
   if (jobs.length === 0) {
 
-    div.innerHTML = "<p>No unprocessed jobs.</p>";
+    div.innerHTML += "<p>No unprocessed jobs.</p>";
 
     return;
 
   }
-
-  div.innerHTML = "";
 
   jobs.forEach(function(job) {
 
