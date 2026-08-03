@@ -62,27 +62,26 @@ function createClient(client) {
 
 function getClients(accountID) {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Clients");
+  return getAllClients()
+    .filter(client => client[1] === accountID)
+    .map(client => [client[0], client[2]]);
 
-  const data = sheet.getDataRange().getValues();
+}
 
-  const clients = [];
 
-  for (let i = 1; i < data.length; i++) {
+function getAllClients() {
 
-    if (data[i][1] === accountID) {
+  const sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getSheetByName("Clients");
 
-      clients.push([
-        data[i][0],
-        data[i][2]
-      ]);
+  const lastRow = sheet.getLastRow();
 
-    }
+  if (lastRow < 2) return [];
 
-  }
-
-  return clients;
+  return sheet
+    .getRange(2, 1, lastRow - 1, 7)
+    .getValues();
 
 }
 
@@ -93,16 +92,13 @@ function getClients(accountID) {
 
 function getClientIDByName(clientName) {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Clients");
+  const clients = getAllClients();
 
-  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < clients.length; i++) {
 
-  for (let i = 1; i < data.length; i++) {
+    if (clients[i][2] === clientName) {
 
-    if (data[i][2] === clientName) {
-
-      return data[i][0];
+      return clients[i][0];
 
     }
 
@@ -115,16 +111,13 @@ function getClientIDByName(clientName) {
 
 function getClientNameByID(clientID) {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Clients");
+  const clients = getAllClients();
 
-  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < clients.length; i++) {
 
-  for (let i = 1; i < data.length; i++) {
+    if (clients[i][0] === clientID) {
 
-    if (data[i][0] === clientID) {
-
-      return data[i][2];
+      return clients[i][2];
 
     }
 
