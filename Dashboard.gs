@@ -5,7 +5,7 @@
 function showDashboard() {
 
   const html = HtmlService
-    .createHtmlOutputFromFile("Dashboard")
+    .createHtmlOutputFromFile("DashboardView")
     .setWidth(1000)
     .setHeight(700);
 
