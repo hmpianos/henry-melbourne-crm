@@ -48,11 +48,12 @@
       font-weight: bold;
     }
   </style>
+
 </head>
 
 <body>
 
-  <h2>TEST 999</h2>
+  <h2>New Job</h2>
 
   <label>Date</label>
   <input type="date" id="jobDate">
@@ -84,15 +85,20 @@
   <label>Notes</label>
   <textarea id="notes"></textarea>
 
-  <!-- CHANGED -->
-  <button id="createButton">Create Job</button>
+  <button onclick="createJob()">Create Job</button>
 
   <div id="message"></div>
 
   <script>
+
     google.script.run
       .withSuccessHandler(loadAccounts)
       .getAccounts();
+
+    google.script.run
+      .withSuccessHandler(loadPayments)
+      .getPaymentMethods();
+
 
     function loadAccounts(accounts) {
 
@@ -113,6 +119,7 @@
 
     }
 
+
     function loadClients() {
 
       const accountID = document.getElementById("account").value;
@@ -122,6 +129,7 @@
         .getClients(accountID);
 
     }
+
 
     function populateClients(clients) {
 
@@ -137,27 +145,31 @@
         select.appendChild(option);
 
       });
- 
+
     }
 
-    // CHANGED
-    window.onload = function () {
 
-      document
-        .getElementById("createButton")
-        .addEventListener("click", function () {
+    function loadPayments(payments) {
 
-         
+      const select = document.getElementById("payment");
+      select.innerHTML = "";
 
-          createJob();
+      payments.forEach(function(payment) {
 
-        });
+        const option = document.createElement("option");
+        option.value = payment;
+        option.text = payment;
 
-    };
+        select.appendChild(option);
+
+      });
+
+    }
+
 
     function createJob() {
 
-     const job = {
+      const job = {
 
         date: document.getElementById("jobDate").value,
         accountID: document.getElementById("account").value,
@@ -177,6 +189,7 @@
         .createJob(job);
 
     }
+
 
     function jobCreated() {
 
