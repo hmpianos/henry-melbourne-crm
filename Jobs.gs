@@ -75,5 +75,10 @@ function writeJob(jobID, job) {
 
   ]);
 
-}
+  const lastRow = master.getLastRow();
 
+  master
+    .getRange(lastRow, 11)
+    .setNumberFormat("£#,##0.00");
+
+}
