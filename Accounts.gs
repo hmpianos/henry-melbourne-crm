@@ -22,24 +22,43 @@ function getAccounts() {
 // ACCOUNT LOOKUPS
 // ======================================================
 
+function getAccountMap() {
+
+  const map = {};
+
+  getAccounts().forEach(function(account) {
+
+    map[account[0]] = account[1];
+
+  });
+
+  return map;
+
+}
+
+
 function getAccountIDByName(accountName) {
 
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName("Accounts");
+  const accounts = getAccounts();
 
-  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < accounts.length; i++) {
 
-  for (let i = 1; i < data.length; i++) {
+    if (accounts[i][1] === accountName) {
 
-    if (data[i][1] === accountName) {
-
-      return data[i][0];
+      return accounts[i][0];
 
     }
 
   }
 
   throw new Error("Account not found: " + accountName);
+
+}
+
+
+function getAccountNameByID(accountID) {
+
+  return getAccountMap()[accountID] || accountID;
 
 }
 
