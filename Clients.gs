@@ -90,6 +90,21 @@ function getAllClients() {
 // CLIENT LOOKUPS
 // ======================================================
 
+function getClientMap() {
+
+  const map = {};
+
+  getAllClients().forEach(function(client) {
+
+    map[client[0]] = client[2];
+
+  });
+
+  return map;
+
+}
+
+
 function getClientIDByName(clientName) {
 
   const clients = getAllClients();
@@ -111,18 +126,6 @@ function getClientIDByName(clientName) {
 
 function getClientNameByID(clientID) {
 
-  const clients = getAllClients();
-
-  for (let i = 0; i < clients.length; i++) {
-
-    if (clients[i][0] === clientID) {
-
-      return clients[i][2];
-
-    }
-
-  }
-
-  throw new Error("Client not found: " + clientID);
+  return getClientMap()[clientID] || clientID;
 
 }
