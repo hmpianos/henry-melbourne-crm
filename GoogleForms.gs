@@ -8,20 +8,10 @@ function updateJobForm() {
 
   const form = FormApp.openById(JOB_FORM_ID);
 
-  getFormListItem(form, "Account")
-    .setChoiceValues(getAccounts().map(a => a[1]));
-
   getFormListItem(form, "Client")
-    .setChoiceValues(
-      SpreadsheetApp.getActiveSpreadsheet()
-        .getSheetByName("Clients")
-        .getRange(2, 3,
-          SpreadsheetApp.getActiveSpreadsheet()
-            .getSheetByName("Clients")
-            .getLastRow() - 1, 1)
-        .getValues()
-        .flat()
-    );
+  .setChoiceValues(
+    getAllClients().map(client => client[2])
+  );
 
   getFormListItem(form, "Service")
     .setChoiceValues(getServices().map(s => s[1]));
