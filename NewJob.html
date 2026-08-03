@@ -74,7 +74,7 @@
   <input type="text" id="piano">
 
   <label>Service</label>
-  <select id="service"></select>
+  <select id="service" onchange="updateRate()"></select>
 
   <label>Rate</label>
   <input type="number" id="rate">
@@ -91,86 +91,88 @@
 
   <script>
 
-    google.script.run
-      .withSuccessHandler(loadAccounts)
-      .getAccounts();
+    document.getElementById("jobDate").value =
+      new Date().toISOString().split("T")[0];
 
-    google.script.run
-      .withSuccessHandler(loadPayments)
-      .getPaymentMethods();
-
+    google.script.run.withSuccessHandler(loadAccounts).getAccounts();
+    google.script.run.withSuccessHandler(loadPayments).getPaymentMethods();
+    google.script.run.withSuccessHandler(loadServices).getServices();
 
     function loadAccounts(accounts) {
-
       const select = document.getElementById("account");
       select.innerHTML = "";
 
       accounts.forEach(function(account) {
-
         const option = document.createElement("option");
         option.value = account[0];
         option.text = account[1];
-
         select.appendChild(option);
-
       });
 
       loadClients();
-
     }
 
-
     function loadClients() {
-
       const accountID = document.getElementById("account").value;
 
       google.script.run
         .withSuccessHandler(populateClients)
         .getClients(accountID);
-
     }
 
-
     function populateClients(clients) {
-
       const select = document.getElementById("client");
       select.innerHTML = "";
 
       clients.forEach(function(client) {
-
         const option = document.createElement("option");
         option.value = client[0];
         option.text = client[1];
-
         select.appendChild(option);
-
       });
-
     }
 
+    function loadServices(services) {
+      const select = document.getElementById("service");
+      select.innerHTML = "";
+
+      services.forEach(function(service) {
+        const option = document.createElement("option");
+        option.value = service[0];
+        option.text = service[1];
+        option.dataset.rate = service[2];
+        select.appendChild(option);
+      });
+
+      if (select.options.length > 0) {
+        updateRate();
+      }
+    }
+
+    function updateRate() {
+      const select = document.getElementById("service");
+
+      if (select.selectedIndex < 0) return;
+
+      document.getElementById("rate").value =
+        select.options[select.selectedIndex].dataset.rate || "";
+    }
 
     function loadPayments(payments) {
-
       const select = document.getElementById("payment");
       select.innerHTML = "";
 
       payments.forEach(function(payment) {
-
         const option = document.createElement("option");
         option.value = payment;
         option.text = payment;
-
         select.appendChild(option);
-
       });
-
     }
-
 
     function createJob() {
 
       const job = {
-
         date: document.getElementById("jobDate").value,
         accountID: document.getElementById("account").value,
         clientID: document.getElementById("client").value,
@@ -181,37 +183,30 @@
         rate: document.getElementById("rate").value,
         paymentMethod: document.getElementById("payment").value,
         notes: document.getElementById("notes").value
-
       };
 
       google.script.run
         .withSuccessHandler(jobCreated)
         .createJob(job);
-
     }
 
-
     function jobCreated() {
-
       const message = document.getElementById("message");
 
       message.style.display = "block";
       message.innerHTML = "✅ Job created successfully.";
 
-      document.getElementById("jobDate").value = "";
       document.getElementById("contactVenue").value = "";
       document.getElementById("room").value = "";
       document.getElementById("piano").value = "";
-      document.getElementById("rate").value = "";
       document.getElementById("notes").value = "";
 
-      setTimeout(function() {
+      updateRate();
 
+      setTimeout(function() {
         message.style.display = "none";
         message.innerHTML = "";
-
       }, 2000);
-
     }
 
   </script>
