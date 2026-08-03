@@ -33,9 +33,9 @@ function getUnprocessedJobs() {
 
         jobID: data[i][1],
         date: data[i][2],
-        account: getAccountNameByID(data[i][3]),
-        client: getClientNameByID(data[i][4]),
-        service: getServiceNameByID(data[i][8]),
+        account: data[i][3],
+        client: data[i][4],
+        service: data[i][8],
         rate: data[i][9]
 
       });
