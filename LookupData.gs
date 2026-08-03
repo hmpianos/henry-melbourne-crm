@@ -42,19 +42,30 @@ function getServices() {
 }
 
 
+function getServiceMap() {
+
+  const map = {};
+
+  getServices().forEach(function(service) {
+
+    map[service[0]] = service[1];
+
+  });
+
+  return map;
+
+}
+
+
 function getServiceIDByName(serviceName) {
 
-  const sheet = SpreadsheetApp
-    .getActiveSpreadsheet()
-    .getSheetByName("Services");
+  const services = getServices();
 
-  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < services.length; i++) {
 
-  for (let i = 1; i < data.length; i++) {
+    if (services[i][1] === serviceName) {
 
-    if (data[i][1] === serviceName) {
-
-      return data[i][0];
+      return services[i][0];
 
     }
 
@@ -67,40 +78,20 @@ function getServiceIDByName(serviceName) {
 
 function getServiceNameByID(serviceID) {
 
-  const sheet = SpreadsheetApp
-    .getActiveSpreadsheet()
-    .getSheetByName("Services");
-
-  const data = sheet.getDataRange().getValues();
-
-  for (let i = 1; i < data.length; i++) {
-
-    if (data[i][0] === serviceID) {
-
-      return data[i][1];
-
-    }
-
-  }
-
-  throw new Error("Service not found: " + serviceID);
+  return getServiceMap()[serviceID] || serviceID;
 
 }
 
 
 function getDefaultRate(serviceID) {
 
-  const sheet = SpreadsheetApp
-    .getActiveSpreadsheet()
-    .getSheetByName("Services");
+  const services = getServices();
 
-  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < services.length; i++) {
 
-  for (let i = 1; i < data.length; i++) {
+    if (services[i][0] === serviceID) {
 
-    if (data[i][0] === serviceID) {
-
-      return data[i][2];
+      return services[i][2];
 
     }
 
