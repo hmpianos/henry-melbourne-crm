@@ -6,7 +6,6 @@
   <base target="_top">
 
   <style>
-
     body {
       font-family: Arial, sans-serif;
       margin: 25px;
@@ -23,7 +22,7 @@
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
 
     }
 
@@ -46,24 +45,22 @@
       font-weight: bold;
 
     }
-
   </style>
 
 </head>
 
 <body>
 
-<h1>HM CRM Dashboard</h1>
+  <h1>HM CRM Dashboard</h1>
 
-<div id="jobs">
+  <div id="jobs">
 
-Loading...
+    Loading...
 
-</div>
+  </div>
 
-<script>
-
-google.script.run
+  <script>
+    google.script.run
   .withSuccessHandler(showJobs)
   .withFailureHandler(showError)
   .getUnprocessedJobs();
@@ -85,9 +82,11 @@ function showJobs(data) {
 
     <div class="card">
 
-      <h2>Unprocessed Jobs: ${data.count}</h2>
+    <h2>Unprocessed Jobs: ${data.count}</h2>
 
-    </div>
+    <p><strong>Outstanding Value:</strong> £${data.totalValue}</p>
+
+  </div>
 
   `;
 
@@ -129,7 +128,7 @@ function showJobs(data) {
 
 }
 
-</script>
+  </script>
 
 </body>
 
