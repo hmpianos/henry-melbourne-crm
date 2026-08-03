@@ -52,6 +52,11 @@ function getUnprocessedJobs() {
 
   }
 
-  return jobs;
+  return {
+
+  count: jobs.length,
+  jobs: jobs
+
+};
 
 }
