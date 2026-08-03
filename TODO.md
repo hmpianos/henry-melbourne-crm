@@ -4,6 +4,7 @@
 - [x] Menu
 - [x] New Client Sidebar
 - [x] New Job Sidebar
+- [ ] New Job Google Form
 - [x] Master Log
 
 ## Version 0.2
